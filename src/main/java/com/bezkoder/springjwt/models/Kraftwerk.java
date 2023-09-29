@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.models;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "kraftwerke") //Tabellenname
@@ -26,15 +27,20 @@ public class Kraftwerk {
     @Column(name = "systemkoordinator")
     private String systemkoordinator;
 
+    /*
     @OneToMany(mappedBy = "kw_id") //ein Kraftwerk zu vielen IT-Elementen, Mitarbeitern & Systemen
     private List<Kraftwerk> Kraftwerke = new ArrayList<>();
+     */
 
     //Konstruktoren
-    public Kraftwerk() {
+    protected  Kraftwerk() {
 
     }
 
-    public Kraftwerk(String kraftwerk_name, String kraftwerksleiter, String zoneninstanzbesitzer, String systemkoordinator) {
+    public Kraftwerk(Long kw_id, String kraftwerk_name, String kraftwerksleiter, String zoneninstanzbesitzer, String systemkoordinator) {
+        super();
+
+        this.kw_id = kw_id;
         this.kraftwerk_name = kraftwerk_name;
         this.kraftwerksleiter = kraftwerksleiter;
         this.zoneninstanzbesitzer = zoneninstanzbesitzer;

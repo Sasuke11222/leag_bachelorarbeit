@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600) //origins = alle akzeptierten Anfragesteller
 @RestController
 @RequestMapping("/api")
 public class BetriebssystemController {

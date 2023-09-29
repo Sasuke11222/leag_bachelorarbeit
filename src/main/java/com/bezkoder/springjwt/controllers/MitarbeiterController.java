@@ -1,7 +1,9 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.exceptions.ResourceNotFoundException;
 import com.bezkoder.springjwt.models.Kraftwerk;
 import com.bezkoder.springjwt.models.Mitarbeiter;
+import com.bezkoder.springjwt.repository.KraftwerkRepository;
 import com.bezkoder.springjwt.repository.MitarbeiterRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,10 @@ import java.util.Optional;
 public class MitarbeiterController {
 
     @Autowired
-    MitarbeiterRepository mitarbeiterRepository;
+    private MitarbeiterRepository mitarbeiterRepository;
+
+    @Autowired
+    private KraftwerkRepository kraftwerkRepository;
 
     @GetMapping("/mitarbeiter")
     public ResponseEntity<List<Mitarbeiter>> getAllMitarbeiter(@RequestParam(required = false) String nachname) {
@@ -48,6 +53,52 @@ public class MitarbeiterController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/mitarbeiter/neu")
+    public ResponseEntity<?> neuerMitarbeiter(@RequestBody Mitarbeiter mitarbeiter, @PathVariable Long kw_id) {
+        // Überprüfe, ob das Kraftwerk mit der gegebenen kw_id existiert
+        Optional<Kraftwerk> kraftwerkOptional = kraftwerkRepository.findById(kw_id);
+        if (!kraftwerkOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Weise dem Mitarbeiter das Kraftwerk zu
+        mitarbeiter.setKw_id(kraftwerkOptional.get());
+        mitarbeiter.setNachname(mitarbeiter.getNachname());
+        mitarbeiter.setVorname(mitarbeiter.getVorname());
+        mitarbeiter.setAbteilung(mitarbeiter.getAbteilung());
+        mitarbeiter.setTelefon(mitarbeiter.getTelefon());
+        mitarbeiter.setMail(mitarbeiter.getMail());
+
+        // Speichere den Mitarbeiter in der Datenbank
+        mitarbeiterRepository.save(mitarbeiter);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/mitarbeiter/create")
+    public ResponseEntity<Mitarbeiter> newMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+
+        Long kw_id = mitarbeiter.getKw_id().getKw_id(); // ID des Kraftwerks aus dem Request-Body extrahieren
+        Kraftwerk kraftwerk = kraftwerkRepository.findById(kw_id).orElseThrow(() -> new ResourceNotFoundException("Kraftwerk nicht gefunden!")); // Kraftwerk aus der Datenbank abrufen
+
+        mitarbeiter.setKw_id(kraftwerk); // Mitarbeiter dem Kraftwerk zuordnen
+        mitarbeiter.setNachname(mitarbeiter.getNachname());
+        mitarbeiter.setVorname(mitarbeiter.getVorname());
+        mitarbeiter.setAbteilung(mitarbeiter.getAbteilung());
+        mitarbeiter.setTelefon(mitarbeiter.getTelefon());
+        mitarbeiter.setMail(mitarbeiter.getMail());
+
+        Mitarbeiter savedMitarbeiter = mitarbeiterRepository.save(mitarbeiter); // Mitarbeiter speichern
+        return ResponseEntity.ok(savedMitarbeiter); // Erfolgreiche Antwort zurückgeben
+    }
+
+    @PostMapping(path = "/addmitarbeiter")
+    public ResponseEntity<Mitarbeiter> addNewMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
+
+        Mitarbeiter savedMitarbeiter = mitarbeiterRepository.save(mitarbeiter);
+        return ResponseEntity.ok().body(savedMitarbeiter);
     }
 
     @PostMapping("/mitarbeiter")

@@ -4,8 +4,10 @@ import com.bezkoder.springjwt.exceptions.ResourceNotFoundException;
 
 import com.bezkoder.springjwt.models.IT_Element;
 import com.bezkoder.springjwt.models.Kraftwerk;
+import com.bezkoder.springjwt.models.Systeme;
 import com.bezkoder.springjwt.repository.IT_ElementRepository;
 import com.bezkoder.springjwt.repository.KraftwerkRepository;
+import com.bezkoder.springjwt.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class IT_ElementController {
 
     @Autowired
     KraftwerkRepository kraftwerkRepository;
+
+    @Autowired
+    SystemRepository systemRepository;
 
 
     @GetMapping("/it_element")

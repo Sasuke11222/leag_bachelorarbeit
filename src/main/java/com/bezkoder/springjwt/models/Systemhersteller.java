@@ -14,7 +14,7 @@ public class Systemhersteller {
 
     private String herstellername;
 
-    @OneToMany(targetEntity = IT_Element.class, mappedBy = "systemhersteller_id", cascade = CascadeType.ALL) //Eine Systemeinheit zu vielen IT-Elementen
+    @OneToMany(targetEntity = IT_Element.class, mappedBy = "systemhersteller_id", cascade = CascadeType.ALL) //Ein Systemhersteller zu vielen IT-Elementen
     private List<Systemhersteller> Systemhersteller = new ArrayList<>();
 
 
@@ -32,8 +32,8 @@ public class Systemhersteller {
     public String getHerstellername () {return this.herstellername;}
     public void setHerstellername (String herstellername) {this.herstellername = herstellername;}
 
-    public Long getID() {return  this.systemhersteller_id;}
-    public void setID(Long ID) {this.systemhersteller_id = ID;}
+    public Long getSystemhersteller_id() {return  this.systemhersteller_id;}
+    public void setSystemhersteller_id(Long systemhersteller_id) {this.systemhersteller_id = systemhersteller_id;}
 
 
 

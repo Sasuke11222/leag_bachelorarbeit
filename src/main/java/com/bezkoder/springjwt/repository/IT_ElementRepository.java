@@ -2,6 +2,7 @@ package com.bezkoder.springjwt.repository;
 
 import com.bezkoder.springjwt.models.IT_Element;
 import com.bezkoder.springjwt.models.Kraftwerk;
+import com.bezkoder.springjwt.models.Systeme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

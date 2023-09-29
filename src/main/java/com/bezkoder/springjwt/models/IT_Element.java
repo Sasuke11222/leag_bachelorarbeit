@@ -53,12 +53,12 @@ public class IT_Element {
     @JoinColumn(name="status_virenschutz_id", referencedColumnName = "status_virenschutz_id") //Join Tabelle status_virenschutz
     private Status_Virenschutz status_virenschutz_id;
 
-    /*@ManyToOne() //viele IT-Elemente zu einem Systemhersteller
+    @ManyToOne() //viele IT-Elemente zu einem Systemhersteller
     @JoinColumn(name="systemhersteller_id", referencedColumnName = "systemhersteller_id") //Join Tabelle systemhersteller
     private Systemhersteller systemhersteller_id;
-     */
 
-    private Integer systemhersteller_id;
+
+    //private Integer systemhersteller_id;
 
     @Column(name = "modell")
     private String modell;
@@ -103,7 +103,7 @@ public class IT_Element {
             Betriebssystem betriebssystem_id,
             Status_Firewall status_firewall_id,
             Status_Virenschutz status_virenschutz_id,
-            Integer systemhersteller_id,
+            Systemhersteller systemhersteller_id,
             String modell,
             String firmwareversion,
             Office office_id,
@@ -190,9 +190,9 @@ public class IT_Element {
     public void setStatus_virenschutz_id(Status_Virenschutz status_virenschutz_id) {this.status_virenschutz_id = status_virenschutz_id;}
 
     /*** @return the systemhersteller*/
-    public Integer getSystemhersteller_id() {return  this.systemhersteller_id;}
+    public Systemhersteller getSystemhersteller_id() {return  this.systemhersteller_id;}
     /*** @param systemherstelelr_id the systemhersteller_id to set*/
-    public void setSystemhersteller_id(int systemhersteller_id) {this.systemhersteller_id = systemhersteller_id;}
+    public void setSystemhersteller_id(Systemhersteller systemhersteller_id) {this.systemhersteller_id = systemhersteller_id;}
 
     public String getModell () {return this.modell;}
     public void setModell (String modell) {this.modell = modell;}

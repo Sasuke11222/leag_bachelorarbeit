@@ -238,17 +238,16 @@ public class Systeme {
     /*** @param kw_id the kw_id to set*/
     public void setKw_id(Kraftwerk kw_id) {this.kw_id = kw_id;}
 
-    /*
-    /*** @return the mitarbeiter
-    public Mitarbeiter getMitarbeiter_id() {return  this.mitarbeiter_id;}
-    /*** @param mitarbeiter_id the mitarbeiter_id to set
-    public void setMitarbeiter_id(Mitarbeiter mitarbeiter_id) {this.mitarbeiter_id = mitarbeiter_id;}
-     */
-
     /*** @return the mitarbeiter*/
     public Mitarbeiter getMitarbeiter_id() {return  this.mitarbeiter_id;}
     /*** @param mitarbeiter_id the mitarbeiter_id to set*/
     public void setMitarbeiter_id(Mitarbeiter mitarbeiter_id) {this.mitarbeiter_id = mitarbeiter_id;}
+
+
+    /*
+    public Integer getMitarbeiter_id() {return  this.mitarbeiter_id;}
+    public void setMitarbeiter_id(Integer mitarbeiter_id) {this.mitarbeiter_id = mitarbeiter_id;}
+     */
 
     public Integer getSystemverantwortlicher_id() {return  this.systemverantwortlicher_id;}
     public void setSystemverantwortlicher_id(Integer systemverantwortlicher_id) {this.systemverantwortlicher_id = systemverantwortlicher_id;}

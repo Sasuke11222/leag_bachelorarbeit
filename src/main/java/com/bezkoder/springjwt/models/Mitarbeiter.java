@@ -29,8 +29,16 @@ public class Mitarbeiter {
     @Column(name = "mail")
     private String mail;
 
-    @Column(name = "kw_id")
-    private Integer kw_id;
+    /*
+    @ManyToOne() // viele Kraftwerke zu einem Mitarbeiter
+    @JoinColumn(name = "kw_id", referencedColumnName = "kw_id") //Join Tabelle kraftwerke
+    private Kraftwerk kw_id;
+     */
+    @ManyToOne(targetEntity = Kraftwerk.class)
+    @JoinColumn(name = "kw_id")
+    private Kraftwerk kraftwerk;
+
+
 
     @OneToMany(targetEntity = Nutzermanagment.class, mappedBy = "mitarbeiter_id", cascade = CascadeType.ALL) //ein Mitarbeiter zu vielen Nutzern
     private List<Mitarbeiter> Mitarbeiter = new ArrayList<>();
@@ -41,17 +49,17 @@ public class Mitarbeiter {
 
 
     //Konstruktoren
-    public Mitarbeiter() {
+    protected  Mitarbeiter() {
 
     }
 
-    public Mitarbeiter(String nachname, String vorname, String abteilung, String telefon, String mail, Integer kw_id) {
+    public Mitarbeiter(String nachname, String vorname, String abteilung, String telefon, String mail, Kraftwerk kraftwerk) {
         this.nachname = nachname;
         this.vorname = vorname;
         this.abteilung = abteilung;
         this.telefon = telefon;
         this.mail = mail;
-        this.kw_id = kw_id;
+        this.kraftwerk = kraftwerk;
 
     }
 
@@ -75,11 +83,11 @@ public class Mitarbeiter {
     public String getMail () {return this.mail;}
     public void setMail (String mail) {this.mail = mail;}
 
-    public Integer getKw_id() {return  this.kw_id;}
-    public void setKw_id(Integer kw_id) {this.kw_id = kw_id;}
+    public Kraftwerk getKw_id() {return  kraftwerk;}
+    public void setKw_id(Kraftwerk kraftwerk) {this.kraftwerk = kraftwerk;}
 
     @Override
     public String toString() {
-        return "Mitarbeiter [mitarbeiter_id=" + mitarbeiter_id + ", nachname=" + nachname + ", vorname=" + vorname + ", abteilung=" + abteilung + ", telefon=" + telefon +", mail=" + mail + ", kw_id=" + kw_id +"]";
+        return "Mitarbeiter [mitarbeiter_id=" + mitarbeiter_id + ", nachname=" + nachname + ", vorname=" + vorname + ", abteilung=" + abteilung + ", telefon=" + telefon +", mail=" + mail + ", kw_id=" + kraftwerk +"]";
     }
 }

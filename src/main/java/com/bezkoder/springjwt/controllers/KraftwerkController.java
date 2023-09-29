@@ -65,6 +65,7 @@ public class KraftwerkController {
         }
 
         Kraftwerk _kraftwerk = kraftwerkRepository.save(new Kraftwerk(
+                kraftwerk.getKw_id(),
                 kraftwerk.getKraftwerk_name(),
                 kraftwerk.getKraftwerksleiter(),
                 kraftwerk.getZoneninstanzbesitzer(),

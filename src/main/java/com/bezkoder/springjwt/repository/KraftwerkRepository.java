@@ -11,6 +11,4 @@ import org.springframework.data.jpa.repository.Query;
 public interface KraftwerkRepository extends JpaRepository<Kraftwerk, Long> {
     @Query(value= "SELECT * FROM KRAFTWERKE WHERE kraftwerk_name = ?1", nativeQuery = true)
     Kraftwerk findByNameContaining(String kraftwerk_name);
-
-    //boolean existsKraftwerkBy(String kraftwerk_name);
 }
