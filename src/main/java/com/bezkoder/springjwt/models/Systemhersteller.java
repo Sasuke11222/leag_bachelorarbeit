@@ -14,8 +14,8 @@ public class Systemhersteller {
 
     private String herstellername;
 
-    @OneToMany(targetEntity = IT_Element.class, mappedBy = "systemhersteller_id", cascade = CascadeType.ALL) //Ein Systemhersteller zu vielen IT-Elementen
-    private List<Systemhersteller> Systemhersteller = new ArrayList<>();
+    //@OneToMany(targetEntity = IT_Element.class, mappedBy = "systemhersteller_id", cascade = CascadeType.ALL) //Ein Systemhersteller zu vielen IT-Elementen
+    //private List<Systemhersteller> Systemhersteller = new ArrayList<>();
 
 
     public Systemhersteller() {
@@ -24,7 +24,6 @@ public class Systemhersteller {
 
     public Systemhersteller(String herstellername) {
         this.herstellername = herstellername;
-
     }
 
     //alle geter und seter

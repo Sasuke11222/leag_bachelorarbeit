@@ -73,7 +73,7 @@ public class KraftwerkController {
         return new ResponseEntity<>(_kraftwerk, HttpStatus.CREATED);
     }
 
-    @PutMapping("/kraftwerke/{kw_id}")
+    /*@PutMapping("/kraftwerke/{kw_id}")
     public ResponseEntity<Kraftwerk> updateKraftwerk(@PathVariable("kw_id") long kw_id, @RequestBody Kraftwerk kraftwerk) {
         Optional<Kraftwerk> KraftwerkData = kraftwerkRepository.findById(kw_id);
 
@@ -84,6 +84,23 @@ public class KraftwerkController {
             _kraftwerk.setZoneninstanzbesitzer(kraftwerk.getZoneninstanzbesitzer());
             _kraftwerk.setSystemkoordinator(kraftwerk.getSystemkoordinator());
             return new ResponseEntity<>(kraftwerkRepository.save(_kraftwerk), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+     */
+
+    @PutMapping("/kraftwerke/{kw_id}")
+    public ResponseEntity<HttpStatus> updateKraftwerk(@PathVariable("kw_id") Long kw_id, @RequestBody Kraftwerk updatedKraftwerk) {
+        Optional<Kraftwerk> kraftwerkOptional = kraftwerkRepository.findById(kw_id);
+        if (kraftwerkOptional.isPresent()) {
+            Kraftwerk kraftwerk = kraftwerkOptional.get();
+            kraftwerk.setKraftwerk_name(updatedKraftwerk.getKraftwerk_name());
+            kraftwerk.setKraftwerksleiter(updatedKraftwerk.getKraftwerksleiter());
+            kraftwerk.setZoneninstanzbesitzer(updatedKraftwerk.getZoneninstanzbesitzer());
+            kraftwerk.setSystemkoordinator(updatedKraftwerk.getSystemkoordinator());
+            kraftwerkRepository.save(kraftwerk);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
