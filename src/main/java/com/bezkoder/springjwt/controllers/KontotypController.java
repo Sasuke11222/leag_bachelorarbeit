@@ -49,14 +49,24 @@ public class KontotypController {
         }
     }
 
+    //erstellt einen neuen Kontotyp
     @PostMapping("/kontotyp")
     public ResponseEntity<Kontotyp> createKontotyp(@RequestBody Kontotyp kontotyp) {
-        try {
-            Kontotyp _kontotyp = kontotypRepository.save(new Kontotyp(kontotyp.getKontotyp()));
-            return new ResponseEntity<>(_kontotyp, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Kontotyp> existingKontotyp = Optional.ofNullable(kontotypRepository.findByNameContaining(kontotyp.getKontotyp()));
+
+        if(existingKontotyp.isPresent()) {
+            Kontotyp _kontotyp = existingKontotyp.get();
+
+            _kontotyp.setKontotyp_id(kontotyp.getKontotyp_id());
+            _kontotyp.setKontotyp(kontotyp.getKontotyp());
+
+            kontotypRepository.save(_kontotyp);
+            return new ResponseEntity<>(_kontotyp, HttpStatus.OK);
         }
+
+        Kontotyp _kontotyp = kontotypRepository.save(new Kontotyp(
+                kontotyp.getKontotyp()));
+        return new ResponseEntity<>(_kontotyp, HttpStatus.CREATED);
     }
 
     @PutMapping("/kontotyp/{kontotyp_id}")
@@ -76,7 +86,7 @@ public class KontotypController {
     public ResponseEntity<HttpStatus> deleteKontotyp(@PathVariable("kontotyp_id") long kontotyp_id) {
         try {
             kontotypRepository.deleteById(kontotyp_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

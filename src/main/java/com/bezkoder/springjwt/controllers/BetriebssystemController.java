@@ -51,28 +51,32 @@ public class BetriebssystemController {
     }
 
     //erstellt Betriebssystem
-    @PostMapping("/addBetriebssystem") //fügt ein neues Betriebssystem hinzu
-    public @ResponseBody ResponseEntity<String> addBetriebssystem(@RequestParam String betriebssystem_name){
-        if(betriebssystemRepository.findByName(betriebssystem_name) != null){
-            return ResponseEntity.badRequest().body("Error: Betriebssystem " + betriebssystem_name + " already exists");
+    @PostMapping("/betriebssystem")
+    public ResponseEntity<Betriebssystem> createBetriebssystem(@RequestBody Betriebssystem betriebssystem) {
+        Optional<Betriebssystem> existingBetriebssystem = Optional.ofNullable(betriebssystemRepository.findByNameContaining(betriebssystem.getBetriebssystem_name()));
+
+        if(existingBetriebssystem.isPresent()) {
+            Betriebssystem _betriebssystem = existingBetriebssystem.get();
+
+            _betriebssystem.setBetriebssystem_name(betriebssystem.getBetriebssystem_name());
+            _betriebssystem.setBetriebssystem_id(betriebssystem.getBetriebssystem_id());
+
+            betriebssystemRepository.save(_betriebssystem);
+            return new ResponseEntity<>(_betriebssystem, HttpStatus.OK);
         }
-        try{
-            Betriebssystem b = new Betriebssystem();
-            b.setBetriebssystem_name(betriebssystem_name);
-            betriebssystemRepository.save(b);
-            return ResponseEntity.ok().body("Betriebssystem " + betriebssystem_name + " created");
-        }catch(Exception e){
-            return ResponseEntity.internalServerError().body("Error: Could not create Betriebssystem " + betriebssystem_name + " Exception: " + e.getMessage());
-        }
+
+        Betriebssystem _betriebssystem = betriebssystemRepository.save(new Betriebssystem(
+                betriebssystem.getBetriebssystem_name()));
+        return new ResponseEntity<>(_betriebssystem, HttpStatus.CREATED);
     }
 
     //bearbeitet Betriebssytem anhand der ID
     @PutMapping("/betriebssystem/{betriebssystem_id}")
     public ResponseEntity<Betriebssystem> updateBetriebssystem(@PathVariable("betriebssystem_id") long betriebssystem_id, @RequestBody Betriebssystem betriebssystem) {
-        Optional<Betriebssystem> BetreibssystemData = betriebssystemRepository.findById(betriebssystem_id);
+        Optional<Betriebssystem> BetriebssystemData = betriebssystemRepository.findById(betriebssystem_id);
 
-        if (BetreibssystemData.isPresent()) {
-            Betriebssystem _betriebssystem = BetreibssystemData.get();
+        if (BetriebssystemData.isPresent()) {
+            Betriebssystem _betriebssystem = BetriebssystemData.get();
             _betriebssystem.setBetriebssystem_name(betriebssystem.getBetriebssystem_name());
             return new ResponseEntity<>(betriebssystemRepository.save(_betriebssystem), HttpStatus.OK);
         } else {
@@ -85,7 +89,7 @@ public class BetriebssystemController {
     public ResponseEntity<HttpStatus> deleteBetriebssystem(@PathVariable("betriebssystem_id") long betriebssystem_id) {
         try {
             betriebssystemRepository.deleteById(betriebssystem_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

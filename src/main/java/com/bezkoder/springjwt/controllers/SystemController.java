@@ -1,6 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.models.IT_Element;
 import com.bezkoder.springjwt.models.Kraftwerk;
 import com.bezkoder.springjwt.repository.KraftwerkRepository;
 import com.bezkoder.springjwt.repository.SystemRepository;
@@ -51,6 +50,17 @@ public class SystemController {
 
         if (SystemData.isPresent()) {
             return new ResponseEntity<>(SystemData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/systeme/kraftwerk/{kw_id}/{system_id}")
+    public ResponseEntity<List<Systeme>> getSystemandKraftwerk(@PathVariable("kw_id") Long kw_id, @PathVariable("system_id") Long system_id) {
+        Optional<Kraftwerk> kraftwerk = kraftwerkRepository.findById(kw_id);
+        if (kraftwerk.isPresent()) {
+            List<Systeme> SystemData = systemRepository.findAllByKwIdAndSysemId(kraftwerk.get(), system_id);
+            return new ResponseEntity<>(SystemData, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

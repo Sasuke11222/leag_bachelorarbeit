@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.models.Systemeinheit;
 import com.bezkoder.springjwt.models.Systemhersteller;
 import com.bezkoder.springjwt.repository.SystemherstellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,16 +51,24 @@ public class SystemherstellerController {
         }
     }
 
+    //erstellt einen neuen Systemhersteller  --> geht noch nicht
     @PostMapping("/systemhersteller")
     public ResponseEntity<Systemhersteller> createSystemhhersteller(@RequestBody Systemhersteller systemhersteller) {
-        try {
-            Systemhersteller _systemhersteller = systemherstellerRepository.save(new Systemhersteller(
-                    systemhersteller.getHerstellername()
-            ));
-            return new ResponseEntity<>(_systemhersteller, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Systemhersteller> existingSystemhersteller = Optional.ofNullable(systemherstellerRepository.findByNameContaining(systemhersteller.getHerstellername()));
+
+        if(existingSystemhersteller.isPresent()) {
+            Systemhersteller _systemhersteller = existingSystemhersteller.get();
+
+            _systemhersteller.setSystemhersteller_id(systemhersteller.getSystemhersteller_id());
+            _systemhersteller.setHerstellername(systemhersteller.getHerstellername());
+
+            systemherstellerRepository.save(_systemhersteller);
+            return new ResponseEntity<>(_systemhersteller, HttpStatus.OK);
         }
+
+        Systemhersteller _systemhersteller = systemherstellerRepository.save(new Systemhersteller(
+                systemhersteller.getHerstellername()));
+        return new ResponseEntity<>(_systemhersteller, HttpStatus.CREATED);
     }
 
     @PutMapping("/systemhersteller/{systemhersteller_id}")
@@ -79,7 +88,7 @@ public class SystemherstellerController {
     public ResponseEntity<HttpStatus> deleteSystemhersteller(@PathVariable("systemhersteller_id") long systemhersteller_id) {
         try {
             systemherstellerRepository.deleteById(systemhersteller_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -48,14 +48,24 @@ public class Status_RJ45Controller {
         }
     }
 
+    //erstellt einen neuen RJ45-Status
     @PostMapping("/status_rj45")
     public ResponseEntity<Status_RJ45> createRJ45status(@RequestBody Status_RJ45 status_rj45) {
-        try {
-            Status_RJ45 _status_rj45 = status_rj45Repository.save(new Status_RJ45(status_rj45.getStatus()));
-            return new ResponseEntity<>(_status_rj45, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Status_RJ45> existingRJ45 = Optional.ofNullable(status_rj45Repository.findByNameContaining(status_rj45.getStatus()));
+
+        if(existingRJ45.isPresent()) {
+            Status_RJ45 _status_rj45 = existingRJ45.get();
+
+            _status_rj45.setStatus_rj45_id(status_rj45.getStatus_rj45_id());
+            _status_rj45.setStatus(status_rj45.getStatus());
+
+            status_rj45Repository.save(_status_rj45);
+            return new ResponseEntity<>(_status_rj45, HttpStatus.OK);
         }
+
+        Status_RJ45 _status_rj45 = status_rj45Repository.save(new Status_RJ45(
+                status_rj45.getStatus()));
+        return new ResponseEntity<>(_status_rj45, HttpStatus.CREATED);
     }
 
     @PutMapping("/status_rj45/{status_rj45_id}")
@@ -75,7 +85,7 @@ public class Status_RJ45Controller {
     public ResponseEntity<HttpStatus> deleteRJ45status(@PathVariable("status_rj45_id") long status_rj45_id) {
         try {
             status_rj45Repository.deleteById(status_rj45_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

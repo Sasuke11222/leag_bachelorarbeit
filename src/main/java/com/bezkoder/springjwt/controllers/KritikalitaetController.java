@@ -48,14 +48,24 @@ public class KritikalitaetController {
         }
     }
 
+    //erstellt eine neue Kritikalitaet  --> geht noch nicht!!!!
     @PostMapping("/kritikalitaet")
     public ResponseEntity<Kritikalitaet> createKritikalitaet(@RequestBody Kritikalitaet kritikalitaet) {
-        try {
-            Kritikalitaet _kritikalitaet = kritikalitaetRepository.save(new Kritikalitaet(kritikalitaet.getKritikalitaet_name()));
-            return new ResponseEntity<>(_kritikalitaet, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Kritikalitaet> existingKritikalitaet = Optional.ofNullable(kritikalitaetRepository.findByNameContaining(kritikalitaet.getKritikalitaet_name()));
+
+        if(existingKritikalitaet.isPresent()) {
+            Kritikalitaet _kritikalitaet = existingKritikalitaet.get();
+
+            _kritikalitaet.setKritikalitaet_id(kritikalitaet.getKritikalitaet_id());
+            _kritikalitaet.setKritikalitaet_name(kritikalitaet.getKritikalitaet_name());
+
+            kritikalitaetRepository.save(_kritikalitaet);
+            return new ResponseEntity<>(_kritikalitaet, HttpStatus.OK);
         }
+
+        Kritikalitaet _kritikalitaet = kritikalitaetRepository.save(new Kritikalitaet(
+                kritikalitaet.getKritikalitaet_name()));
+        return new ResponseEntity<>(_kritikalitaet, HttpStatus.CREATED);
     }
 
     @PutMapping("/kritikalitaet/{kritikalitaet_id}")
@@ -75,7 +85,7 @@ public class KritikalitaetController {
     public ResponseEntity<HttpStatus> deleteKritikalitaet(@PathVariable("kritikalitaet_id") long kritikalitaet_id) {
         try {
             kritikalitaetRepository.deleteById(kritikalitaet_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

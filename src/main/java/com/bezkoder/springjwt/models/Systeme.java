@@ -343,7 +343,7 @@ public class Systeme {
                 + ", system_name=" + system_name
                 + ", beschreibung=" + beschreibung
                 + ", errichter=" + errichter
-                + ", zone=" + zonen_id
+                + ", zonen_id=" + zonen_id
                 +"]";
     }
 

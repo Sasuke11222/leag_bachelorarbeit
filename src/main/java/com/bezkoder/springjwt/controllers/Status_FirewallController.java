@@ -19,6 +19,7 @@ public class Status_FirewallController {
     @Autowired
     Status_FirewallRepository status_firewallRepository;
 
+    //Fragt alle Firewallstatus ab
     @GetMapping("/status_firewall")
     public ResponseEntity<List<Status_Firewall>> getAllFirewallstatuse(@RequestParam(required = false) String status) {
         try {
@@ -37,6 +38,7 @@ public class Status_FirewallController {
         }
     }
 
+    //Fragt ein Firewallstatus anhand der ID ab
     @GetMapping("/status_firewall/{status_firewall_id}")
     public ResponseEntity<Status_Firewall> getFirewallstatusById(@PathVariable("status_firewall_id") long status_firewall_id) {
         Optional<Status_Firewall> Status_FirewallData = status_firewallRepository.findById(status_firewall_id);
@@ -48,16 +50,28 @@ public class Status_FirewallController {
         }
     }
 
+    //erstellt einen neuen Firewallstatus
     @PostMapping("/status_firewall")
     public ResponseEntity<Status_Firewall> createFirewallstatus(@RequestBody Status_Firewall status_firewall) {
-        try {
-            Status_Firewall _status_firewall = status_firewallRepository.save(new Status_Firewall(status_firewall.getStatus()));
-            return new ResponseEntity<>(_status_firewall, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Status_Firewall> existingStatusFirewall = Optional.ofNullable(status_firewallRepository.findByNameContaining(status_firewall.getStatus()));
+
+        if(existingStatusFirewall.isPresent()) {
+            Status_Firewall _status_firewall = existingStatusFirewall.get();
+
+            _status_firewall.setStatus_firewall_id(status_firewall.getStatus_firewall_id());
+            _status_firewall.setStatus(status_firewall.getStatus());
+
+            status_firewallRepository.save(_status_firewall);
+            return new ResponseEntity<>(_status_firewall, HttpStatus.OK);
         }
+
+        Status_Firewall _status_firewall = status_firewallRepository.save(new Status_Firewall(
+                status_firewall.getStatus()));
+        return new ResponseEntity<>(_status_firewall, HttpStatus.CREATED);
     }
 
+
+    //bearbeitet Firewallstatus anhand der ID
     @PutMapping("/status_firewall/{status_firewall_id}")
     public ResponseEntity<Status_Firewall> updateFirewallstatus(@PathVariable("status_firewall_id") long status_firewall_id, @RequestBody Status_Firewall status_firewall) {
         Optional<Status_Firewall> Status_FirewallData = status_firewallRepository.findById(status_firewall_id);
@@ -71,11 +85,12 @@ public class Status_FirewallController {
         }
     }
 
+    //löscht ein Firewallstatus anhand der ID
     @DeleteMapping("/status_firewall/{status_firewall_id}")
     public ResponseEntity<HttpStatus> deleteFirewallstatus(@PathVariable("status_firewall_id") long status_firewall_id) {
         try {
             status_firewallRepository.deleteById(status_firewall_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

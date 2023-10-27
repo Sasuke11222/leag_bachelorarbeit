@@ -48,14 +48,24 @@ public class OfficeController {
         }
     }
 
+    //erstellt ein neues Office
     @PostMapping("/office")
     public ResponseEntity<Office> createOffice(@RequestBody Office office) {
-        try {
-            Office _office = officeRepository.save(new Office(office.getVersion()));
-            return new ResponseEntity<>(_office, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Office> existingOffice = Optional.ofNullable(officeRepository.findByNameContaining(office.getVersion()));
+
+        if(existingOffice.isPresent()) {
+            Office _office = existingOffice.get();
+
+            _office.setOffice_id(office.getOffice_id());
+            _office.setVersion(office.getVersion());
+
+            officeRepository.save(_office);
+            return new ResponseEntity<>(_office, HttpStatus.OK);
         }
+
+        Office _office = officeRepository.save(new Office(
+                office.getVersion()));
+        return new ResponseEntity<>(_office, HttpStatus.CREATED);
     }
 
     @PutMapping("/office/{office_id}")
@@ -75,7 +85,7 @@ public class OfficeController {
     public ResponseEntity<HttpStatus> deleteOffice(@PathVariable("office_id") long office_id) {
         try {
             officeRepository.deleteById(office_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

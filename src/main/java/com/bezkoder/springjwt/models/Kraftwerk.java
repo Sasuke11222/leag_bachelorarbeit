@@ -37,10 +37,8 @@ public class Kraftwerk {
 
     }
 
-    public Kraftwerk(Long kw_id, String kraftwerk_name, String kraftwerksleiter, String zoneninstanzbesitzer, String systemkoordinator) {
+    public Kraftwerk( String kraftwerk_name, String kraftwerksleiter, String zoneninstanzbesitzer, String systemkoordinator) {
         super();
-
-        this.kw_id = kw_id;
         this.kraftwerk_name = kraftwerk_name;
         this.kraftwerksleiter = kraftwerksleiter;
         this.zoneninstanzbesitzer = zoneninstanzbesitzer;

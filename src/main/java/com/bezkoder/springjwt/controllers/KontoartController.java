@@ -50,14 +50,24 @@ public class KontoartController {
         }
     }
 
+    //erstellt eine neue Kontoart
     @PostMapping("/kontoart")
     public ResponseEntity<Kontoart> createKontoart(@RequestBody Kontoart kontoart) {
-        try {
-            Kontoart _kontoart = kontoartRepository.save(new Kontoart(kontoart.getKontoart()));
-            return new ResponseEntity<>(_kontoart, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Kontoart> existingKontoart = Optional.ofNullable(kontoartRepository.findByNameContaining(kontoart.getKontoart()));
+
+        if(existingKontoart.isPresent()) {
+            Kontoart _kontoart = existingKontoart.get();
+
+            _kontoart.setKontoart_id(kontoart.getKontoart_id());
+            _kontoart.setKontoart(kontoart.getKontoart());
+
+            kontoartRepository.save(_kontoart);
+            return new ResponseEntity<>(_kontoart, HttpStatus.OK);
         }
+
+        Kontoart _kontoart = kontoartRepository.save(new Kontoart(
+                kontoart.getKontoart()));
+        return new ResponseEntity<>(_kontoart, HttpStatus.CREATED);
     }
 
     @PutMapping("/kontoart/{kontoart_id}")
@@ -77,7 +87,7 @@ public class KontoartController {
     public ResponseEntity<HttpStatus> deleteKontoart(@PathVariable("kontoart_id") long kontoart_id) {
         try {
             kontoartRepository.deleteById(kontoart_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

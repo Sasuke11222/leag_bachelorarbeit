@@ -50,14 +50,24 @@ public class SystemeinheitController {
         }
     }
 
+    //erstellt eine neue Systemeinheit
     @PostMapping("/systemeinheit")
     public ResponseEntity<Systemeinheit> createSystemeinheit(@RequestBody Systemeinheit systemeinheit) {
-        try {
-            Systemeinheit _systemeinheit = systemeinheitRepository.save(new Systemeinheit(systemeinheit.getSystemeinheit_name()));
-            return new ResponseEntity<>(_systemeinheit, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Systemeinheit> existingSystemeinheit = Optional.ofNullable(systemeinheitRepository.findByNameContaining(systemeinheit.getSystemeinheit_name()));
+
+        if(existingSystemeinheit.isPresent()) {
+            Systemeinheit _systemeinheit = existingSystemeinheit.get();
+
+            _systemeinheit.setSystemeinheit_id(systemeinheit.getSystemeinheit_id());
+            _systemeinheit.setSystemeinheit_name(systemeinheit.getSystemeinheit_name());
+
+            systemeinheitRepository.save(_systemeinheit);
+            return new ResponseEntity<>(_systemeinheit, HttpStatus.OK);
         }
+
+        Systemeinheit _systemeinheit = systemeinheitRepository.save(new Systemeinheit(
+                systemeinheit.getSystemeinheit_name()));
+        return new ResponseEntity<>(_systemeinheit, HttpStatus.CREATED);
     }
 
     @PutMapping("/systemeinheit/{systemeinheit_id}")
@@ -77,7 +87,7 @@ public class SystemeinheitController {
     public ResponseEntity<HttpStatus> deleteSystemeinheit(@PathVariable("systemeinheit_id") long systemeinheit_id) {
         try {
             systemeinheitRepository.deleteById(systemeinheit_id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
