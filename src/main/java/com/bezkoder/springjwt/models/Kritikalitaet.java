@@ -25,7 +25,8 @@ public class Kritikalitaet {
 
     }
 
-    public Kritikalitaet(String kritikalitaet_name) {
+    public Kritikalitaet(Long kritikalitaet_id, String kritikalitaet_name) {
+        this.kritikalitaet_id = kritikalitaet_id;
         this.kritikalitaet_name = kritikalitaet_name;
 
     }

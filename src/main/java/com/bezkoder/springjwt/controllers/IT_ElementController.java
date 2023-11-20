@@ -73,18 +73,6 @@ public class IT_ElementController {
         }
     }
 
-    @PostMapping("/it_element1")
-    public ResponseEntity<IT_Element> createIT_Element1(@PathVariable(value = "kw_id") Long kw_id,
-                                                        @RequestBody IT_Element it_element) {
-        IT_Element comment = kraftwerkRepository.findById(kw_id).map(kraftwerk -> {
-            it_element.setKw_id(kraftwerk);
-            return it_elementRepository.save(it_element);
-        }).orElseThrow(() -> new ResourceNotFoundException("Konnte Kraftwerk mit der ID = " + kw_id + " nicht finden!"));
-
-        return new ResponseEntity<>(comment, HttpStatus.CREATED);
-    }
-
-
     @PostMapping("/it_element")
     public ResponseEntity<IT_Element> createIT_Element(@RequestBody IT_Element it_element) {
         Optional<IT_Element> existingIT_Elemente = Optional.ofNullable(it_elementRepository.findByNameContaining(it_element.getKKS()));

@@ -27,7 +27,6 @@ public class Systemtyp {
 
     public Systemtyp(String systemtyp_name) {
         this.systemtyp_name = systemtyp_name;
-
     }
 
     //alle Getter und Setter

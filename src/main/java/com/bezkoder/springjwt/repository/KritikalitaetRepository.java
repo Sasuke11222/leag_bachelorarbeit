@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
  * kritikalitaetsRepository
  */
 public interface KritikalitaetRepository extends JpaRepository<Kritikalitaet, Long> {
-    @Query(value= "SELECT * FROM KRITIKALITAET WHERE KRITIKALITAET_NAME = ?1", nativeQuery = true)
+    @Query(value= "SELECT * FROM KRITIKALITAET WHERE kritikalitaet_name = ?1", nativeQuery = true)
     Kritikalitaet findByNameContaining(String kritikalitaet_name);
 }

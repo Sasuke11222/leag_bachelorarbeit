@@ -51,7 +51,7 @@ public class SystemherstellerController {
         }
     }
 
-    //erstellt einen neuen Systemhersteller  --> geht noch nicht
+    //erstellt einen neuen Systemhersteller  --> geht noch nicht !!!! Internet Error
     @PostMapping("/systemhersteller")
     public ResponseEntity<Systemhersteller> createSystemhhersteller(@RequestBody Systemhersteller systemhersteller) {
         Optional<Systemhersteller> existingSystemhersteller = Optional.ofNullable(systemherstellerRepository.findByNameContaining(systemhersteller.getHerstellername()));
@@ -67,7 +67,9 @@ public class SystemherstellerController {
         }
 
         Systemhersteller _systemhersteller = systemherstellerRepository.save(new Systemhersteller(
-                systemhersteller.getHerstellername()));
+                systemhersteller.getSystemhersteller_id(),
+                systemhersteller.getHerstellername()
+        ));
         return new ResponseEntity<>(_systemhersteller, HttpStatus.CREATED);
     }
 

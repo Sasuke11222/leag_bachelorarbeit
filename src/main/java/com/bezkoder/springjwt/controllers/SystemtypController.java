@@ -1,6 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-
 import com.bezkoder.springjwt.models.Systemtyp;
 import com.bezkoder.springjwt.repository.SystemtypRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +51,24 @@ public class SystemtypController {
         }
     }
 
+    //erstellt Betriebssystem
     @PostMapping("/systemtyp")
     public ResponseEntity<Systemtyp> createSystemtyp(@RequestBody Systemtyp systemtyp) {
-        try {
-            Systemtyp _systemtyp = systemtypRepository.save(new Systemtyp(systemtyp.getSystemtyp_name()));
-            return new ResponseEntity<>(_systemtyp, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Optional<Systemtyp> existingSystemtyp = Optional.ofNullable(systemtypRepository.findByNameContaining(systemtyp.getSystemtyp_name()));
+
+        if(existingSystemtyp.isPresent()) {
+            Systemtyp _systemtyp = existingSystemtyp.get();
+
+            _systemtyp.setSystemtyp_id(systemtyp.getSystemtyp_id());
+            _systemtyp.setSystemtyp_name(systemtyp.getSystemtyp_name());
+
+            systemtypRepository.save(_systemtyp);
+            return new ResponseEntity<>(_systemtyp, HttpStatus.OK);
         }
+
+        Systemtyp _systemtyp = systemtypRepository.save(new Systemtyp(
+                systemtyp.getSystemtyp_name()));
+        return new ResponseEntity<>(_systemtyp, HttpStatus.CREATED);
     }
 
     @PutMapping("/systemtyp/{systemtyp_id}")

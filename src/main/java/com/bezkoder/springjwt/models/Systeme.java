@@ -133,7 +133,8 @@ public class Systeme {
 
     }
 
-    public Systeme(String system_name,
+    public Systeme(Long system_id,
+                   String system_name,
                    String beschreibung,
                    Systemtyp systemtyp_id,
                    Kritikalitaet kritikalitaet_id,
@@ -170,6 +171,7 @@ public class Systeme {
                    String isms_auswirkung,
                    String isms_begruendung
     ) {
+        this.system_id = system_id;
         this.system_name = system_name;
         this.beschreibung = beschreibung;
         this.systemtyp_id = systemtyp_id;

@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.models.Kraftwerk;
+import com.bezkoder.springjwt.models.Mitarbeiter;
 import com.bezkoder.springjwt.repository.KraftwerkRepository;
 import com.bezkoder.springjwt.repository.SystemRepository;
 import com.bezkoder.springjwt.models.Systeme;
@@ -77,52 +78,94 @@ public class SystemController {
         }
     }
 
+    //erstellt ein neues System --> bad Request
     @PostMapping("/systeme")
-    public ResponseEntity<Systeme> createSystem(@RequestBody Systeme systeme) {
-        try {
-            Systeme _system = systemRepository
-                    .save(new Systeme(
-                        systeme.getSystem_name(),
-                        systeme.getBeschreibung(),
-                        systeme.getSystemtyp_id(),
-                        systeme.getKritikalitaet_id(),
-                        systeme.getZonen_id(),
-                        systeme.getKw_id(),
-                        systeme.getMitarbeiter_id(),
-                        systeme.getSystemverantwortlicher_id(),
-                        systeme.getBuerozugang(),
-                        systeme.getFernzugang(),
-                        systeme.getErrichter(),
-                        systeme.getPdn(),
-                        systeme.getZugangsart(),
-                        systeme.getPdndate(),
-                        systeme.getKsp_a(),
-                        systeme.getKsp_b(),
-                        systeme.getKsp_y(),
-                        systeme.getBox_n(),
-                        systeme.getBox_p(),
-                        systeme.getBox_q(),
-                        systeme.getBox_r(),
-                        systeme.getBox_y(),
-                        systeme.getJae_a(),
-                        systeme.getJae_b(),
-                        systeme.getJae_c(),
-                        systeme.getJae_d(),
-                        systeme.getJae_e(),
-                        systeme.getJae_f(),
-                        systeme.getJae_y(),
-                        systeme.getLip_r(),
-                        systeme.getLip_s(),
-                        systeme.getLip_y(),
-                        systeme.getIsms_Relevant(),
-                        systeme.getIsms_Reduzierung(),
-                        systeme.getIsms_Auswirkung(),
-                        systeme.getIsms_Begruendung()
-                        ));
-            return new ResponseEntity<>(_system, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Systeme> createSysteme(@RequestBody Systeme systeme) {
+        Optional<Systeme> existingSysteme = Optional.ofNullable(systemRepository.findByNameContaining(systeme.getSystem_name()));
+
+        if(existingSysteme.isPresent()) {
+            Systeme _systeme = existingSysteme.get();
+            _systeme.setSystem_id(systeme.getSystem_id());
+            _systeme.setSystem_name(systeme.getSystem_name());
+            _systeme.setBeschreibung(systeme.getBeschreibung());
+            _systeme.setSystemtyp_id(systeme.getSystemtyp_id());
+            _systeme.setKritikalitaet_id(systeme.getKritikalitaet_id());
+            _systeme.setZonen_id(systeme.getZonen_id());
+            _systeme.setKw_id(systeme.getKw_id());
+            _systeme.setMitarbeiter_id(systeme.getMitarbeiter_id());
+            _systeme.setSystemverantwortlicher_id(systeme.getSystemverantwortlicher_id());
+            _systeme.setBuerozugang(systeme.getBuerozugang());
+            _systeme.setFernzugang(systeme.getFernzugang());
+            _systeme.setErrichter(systeme.getErrichter());
+            _systeme.setPdn(systeme.getPdn());
+            _systeme.setZugangsart(systeme.getZugangsart());
+            _systeme.setPdndate(systeme.getPdndate());
+            _systeme.setKsp_a(systeme.getKsp_a());
+            _systeme.setKsp_b(systeme.getKsp_b());
+            _systeme.setKsp_y(systeme.getKsp_y());
+            _systeme.setBox_n(systeme.getBox_n());
+            _systeme.setBox_p(systeme.getBox_p());
+            _systeme.setBox_q(systeme.getBox_q());
+            _systeme.setBox_r(systeme.getBox_r());
+            _systeme.setBox_y(systeme.getBox_y());
+            _systeme.setJae_a(systeme.getJae_a());
+            _systeme.setJae_b(systeme.getJae_b());
+            _systeme.setJae_c(systeme.getJae_c());
+            _systeme.setJae_d(systeme.getJae_d());
+            _systeme.setJae_e(systeme.getJae_e());
+            _systeme.setJae_f(systeme.getJae_f());
+            _systeme.setJae_y(systeme.getJae_y());
+            _systeme.setLip_r(systeme.getLip_r());
+            _systeme.setLip_s(systeme.getLip_s());
+            _systeme.setLip_y(systeme.getLip_y());
+            _systeme.setIsms_Relevant(systeme.getIsms_Relevant());
+            _systeme.setIsms_Reduzierung(systeme.getIsms_Reduzierung());
+            _systeme.setIsms_Auswirkung(systeme.getIsms_Auswirkung());
+            _systeme.setIsms_Begruendung(systeme.getIsms_Begruendung());
+
+            systemRepository.save(_systeme);
+            return new ResponseEntity<>(_systeme, HttpStatus.OK);
         }
+        Systeme _systeme = systemRepository.save(new Systeme(
+                systeme.getSystem_id(),
+                systeme.getSystem_name(),
+                systeme.getBeschreibung(),
+                systeme.getSystemtyp_id(),
+                systeme.getKritikalitaet_id(),
+                systeme.getZonen_id(),
+                systeme.getKw_id(),
+                systeme.getMitarbeiter_id(),
+                systeme.getSystemverantwortlicher_id(),
+                systeme.getBuerozugang(),
+                systeme.getFernzugang(),
+                systeme.getErrichter(),
+                systeme.getPdn(),
+                systeme.getZugangsart(),
+                systeme.getPdndate(),
+                systeme.getKsp_a(),
+                systeme.getKsp_b(),
+                systeme.getKsp_y(),
+                systeme.getBox_n(),
+                systeme.getBox_p(),
+                systeme.getBox_q(),
+                systeme.getBox_r(),
+                systeme.getBox_y(),
+                systeme.getJae_a(),
+                systeme.getJae_b(),
+                systeme.getJae_c(),
+                systeme.getJae_d(),
+                systeme.getJae_e(),
+                systeme.getJae_f(),
+                systeme.getJae_y(),
+                systeme.getLip_r(),
+                systeme.getLip_s(),
+                systeme.getLip_y(),
+                systeme.getIsms_Relevant(),
+                systeme.getIsms_Reduzierung(),
+                systeme.getIsms_Auswirkung(),
+                systeme.getIsms_Begruendung()
+        ));
+        return new ResponseEntity<>(_systeme, HttpStatus.CREATED);
     }
 
     @PutMapping("/systeme/{system_id}")

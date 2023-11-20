@@ -25,10 +25,13 @@ public class Zone {
 
     public Zone(String zone) {
         this.zone = zone;
-
     }
-    public long getZonen_id() {
+    public Long getZonen_id() {
         return zonen_id;
+    }
+
+    public void setZonen_id(Long zonen_id) {
+        this.zonen_id = zonen_id;
     }
 
     public String getZone() {
@@ -38,8 +41,6 @@ public class Zone {
     public void setZone(String zone) {
         this.zone = zone;
     }
-
-
 
     @Override
     public String toString() {

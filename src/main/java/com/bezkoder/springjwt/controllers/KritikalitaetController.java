@@ -1,6 +1,8 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.models.Betriebssystem;
 import com.bezkoder.springjwt.models.Kritikalitaet;
+import com.bezkoder.springjwt.models.Mitarbeiter;
 import com.bezkoder.springjwt.repository.KritikalitaetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,23 +50,23 @@ public class KritikalitaetController {
         }
     }
 
-    //erstellt eine neue Kritikalitaet  --> geht noch nicht!!!!
+    //erstellt eine neue Kritikalitaet  --> geht noch nicht!!!! Internet Error
     @PostMapping("/kritikalitaet")
     public ResponseEntity<Kritikalitaet> createKritikalitaet(@RequestBody Kritikalitaet kritikalitaet) {
         Optional<Kritikalitaet> existingKritikalitaet = Optional.ofNullable(kritikalitaetRepository.findByNameContaining(kritikalitaet.getKritikalitaet_name()));
 
         if(existingKritikalitaet.isPresent()) {
             Kritikalitaet _kritikalitaet = existingKritikalitaet.get();
-
             _kritikalitaet.setKritikalitaet_id(kritikalitaet.getKritikalitaet_id());
             _kritikalitaet.setKritikalitaet_name(kritikalitaet.getKritikalitaet_name());
 
             kritikalitaetRepository.save(_kritikalitaet);
             return new ResponseEntity<>(_kritikalitaet, HttpStatus.OK);
         }
-
         Kritikalitaet _kritikalitaet = kritikalitaetRepository.save(new Kritikalitaet(
-                kritikalitaet.getKritikalitaet_name()));
+                kritikalitaet.getKritikalitaet_id(),
+                kritikalitaet.getKritikalitaet_name()
+        ));
         return new ResponseEntity<>(_kritikalitaet, HttpStatus.CREATED);
     }
 

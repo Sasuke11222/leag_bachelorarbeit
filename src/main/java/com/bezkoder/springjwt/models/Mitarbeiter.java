@@ -53,7 +53,8 @@ public class Mitarbeiter {
 
     }
 
-    public Mitarbeiter(String nachname, String vorname, String abteilung, String telefon, String mail, Kraftwerk kraftwerk) {
+    public Mitarbeiter(Long mitarbeiter_id, String nachname, String vorname, String abteilung, String telefon, String mail, Kraftwerk kraftwerk) {
+        this.mitarbeiter_id = mitarbeiter_id;
         this.nachname = nachname;
         this.vorname = vorname;
         this.abteilung = abteilung;
