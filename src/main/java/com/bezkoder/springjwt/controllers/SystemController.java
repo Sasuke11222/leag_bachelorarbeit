@@ -78,7 +78,7 @@ public class SystemController {
         }
     }
 
-    //erstellt ein neues System --> bad Request
+    //erstellt ein neues System
     @PostMapping("/systeme")
     public ResponseEntity<Systeme> createSysteme(@RequestBody Systeme systeme) {
         Optional<Systeme> existingSysteme = Optional.ofNullable(systemRepository.findByNameContaining(systeme.getSystem_name()));
