@@ -1,7 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.models.Systemtyp;
-import com.bezkoder.springjwt.models.Virenschutzhersteller;
 import com.bezkoder.springjwt.models.Zone;
 import com.bezkoder.springjwt.repository.ZoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +40,8 @@ public class ZoneController {
     }
 
     @GetMapping("/zone/{zonen_id}")
-    public ResponseEntity<Zone> getZoneById(@PathVariable("zone_id") long zone_id) {
-        Optional<Zone> ZoneData = zoneRepository.findById(zone_id);
+    public ResponseEntity<Zone> getZoneById(@PathVariable("zonen_id") long zonen_id) {
+        Optional<Zone> ZoneData = zoneRepository.findById(zonen_id);
 
         if (ZoneData.isPresent()) {
             return new ResponseEntity<>(ZoneData.get(), HttpStatus.OK);
@@ -52,24 +50,15 @@ public class ZoneController {
         }
     }
 
-    //erstellt Zone --> geht noch nicht Bad Request
-    @PostMapping("/zone")
-    public ResponseEntity<Zone> createZone(@RequestBody Zone zone) {
-        try {
-            Zone _zone = zoneRepository.save(new Zone(
-                    zone.getZone()));
-            return new ResponseEntity<>(_zone, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    /*
+    //erstellt Zone
     @PostMapping("/zone")
     public ResponseEntity<Zone> createZone(@RequestBody Zone zone) {
         Optional<Zone> existingZone = Optional.ofNullable(zoneRepository.findByNameContaining(zone.getZone()));
 
         if(existingZone.isPresent()) {
             Zone _zone = existingZone.get();
+
+            _zone.setZonen_id(zone.getZonen_id());
             _zone.setZone(zone.getZone());
 
             zoneRepository.save(_zone);
@@ -80,7 +69,6 @@ public class ZoneController {
                 zone.getZone()));
         return new ResponseEntity<>(_zone, HttpStatus.CREATED);
     }
-     */
 
     @PutMapping("/zone/{zonen_id}")
     public ResponseEntity<Zone> updateZone(@PathVariable("zonen_id") long zonen_id, @RequestBody Zone zonen) {

@@ -9,8 +9,9 @@ import java.util.List;
 public class Zone {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long zonen_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Wert wird automatisch vergeben
+    @Column(name = "zonen_id")
+    private Long zonen_id;
 
     @Column(name = "zone")
     private String zone;

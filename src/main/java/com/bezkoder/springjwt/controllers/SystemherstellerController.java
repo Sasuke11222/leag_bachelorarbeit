@@ -1,7 +1,9 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.models.Systemeinheit;
+import com.bezkoder.springjwt.models.Kraftwerk;
+import com.bezkoder.springjwt.models.Kritikalitaet;
 import com.bezkoder.springjwt.models.Systemhersteller;
+import com.bezkoder.springjwt.repository.KraftwerkRepository;
 import com.bezkoder.springjwt.repository.SystemherstellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,9 @@ public class SystemherstellerController {
 
     @Autowired
     SystemherstellerRepository systemherstellerRepository;
+
+    @Autowired
+    KraftwerkRepository kraftwerkRepository;
 
 
     @GetMapping("/systemhersteller")
@@ -51,26 +56,27 @@ public class SystemherstellerController {
         }
     }
 
-    //erstellt einen neuen Systemhersteller  --> geht noch nicht !!!! Internet Error
+    @GetMapping(value = "/systemhersteller/kraftwerk/{kw_id}")
+    public ResponseEntity<List<Systemhersteller>> getHerstelelr(@PathVariable("kw_id") Long kw_id) {
+        Optional<Kraftwerk> kraftwerk = kraftwerkRepository.findById(kw_id);
+        if (kraftwerk.isPresent()) {
+            List<Systemhersteller> SystemherstellerData = systemherstellerRepository.findAllByKwId(kraftwerk.get());
+            return new ResponseEntity<>(SystemherstellerData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //erstellt einen neuen Systemhersteller
     @PostMapping("/systemhersteller")
     public ResponseEntity<Systemhersteller> createSystemhhersteller(@RequestBody Systemhersteller systemhersteller) {
-        Optional<Systemhersteller> existingSystemhersteller = Optional.ofNullable(systemherstellerRepository.findByNameContaining(systemhersteller.getHerstellername()));
-
-        if(existingSystemhersteller.isPresent()) {
-            Systemhersteller _systemhersteller = existingSystemhersteller.get();
-
-            _systemhersteller.setSystemhersteller_id(systemhersteller.getSystemhersteller_id());
-            _systemhersteller.setHerstellername(systemhersteller.getHerstellername());
-
-            systemherstellerRepository.save(_systemhersteller);
-            return new ResponseEntity<>(_systemhersteller, HttpStatus.OK);
+        try {
+            Systemhersteller _systemhersteller = systemherstellerRepository.save(new Systemhersteller(
+                    systemhersteller.getHerstellername()));
+            return new ResponseEntity<>(_systemhersteller, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        Systemhersteller _systemhersteller = systemherstellerRepository.save(new Systemhersteller(
-                systemhersteller.getSystemhersteller_id(),
-                systemhersteller.getHerstellername()
-        ));
-        return new ResponseEntity<>(_systemhersteller, HttpStatus.CREATED);
     }
 
     @PutMapping("/systemhersteller/{systemhersteller_id}")

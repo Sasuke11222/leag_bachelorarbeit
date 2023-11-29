@@ -11,6 +11,4 @@ public interface BetriebssystemRepository extends JpaRepository<Betriebssystem, 
     @Query(value= "SELECT * FROM BETRIEBSSYSTEM WHERE BETRIEBSSYSTEM_NAME = ?1", nativeQuery = true)
     Betriebssystem findByNameContaining(String betriebssystem_name);
 
-    @Query(value= "SELECT * FROM BETRIEBSSYSTEM WHERE BETRIEBSSYSTEM_NAME = ?1", nativeQuery = true)
-    Betriebssystem findByName(String betriebssystem_name);
 }

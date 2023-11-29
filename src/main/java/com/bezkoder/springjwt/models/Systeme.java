@@ -9,8 +9,9 @@ import java.util.List;
 public class Systeme {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long system_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Wert wird automatisch vergeben
+    @Column(name = "system_id")
+    private Long system_id;
 
     @Column(name = "system_name")
     private String system_name;

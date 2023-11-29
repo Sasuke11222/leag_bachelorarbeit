@@ -22,8 +22,7 @@ public class Systemhersteller {
 
     }
 
-    public Systemhersteller(Long systemhersteller_id, String herstellername) {
-        this.systemhersteller_id = systemhersteller_id;
+    public Systemhersteller(String herstellername) {
         this.herstellername = herstellername;
     }
 
