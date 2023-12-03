@@ -40,12 +40,14 @@ public class Mitarbeiter {
 
 
 
-    @OneToMany(targetEntity = Nutzermanagment.class, mappedBy = "mitarbeiter_id", cascade = CascadeType.ALL) //ein Mitarbeiter zu vielen Nutzern
-    private List<Mitarbeiter> Mitarbeiter = new ArrayList<>();
+    //@OneToMany(targetEntity = Nutzermanagment.class, mappedBy = "mitarbeiter_id", cascade = CascadeType.ALL) //ein Mitarbeiter zu vielen Nutzern
+    //private List<Mitarbeiter> Mitarbeiter = new ArrayList<>();
 
+    @OneToMany(mappedBy = "mitarbeiter_id", fetch = FetchType.LAZY)
+    private List<Systeme> systems;
 
-    @OneToMany(targetEntity = Systeme.class, mappedBy = "mitarbeiter_id", cascade = CascadeType.ALL) //ein Mitarbeiter zu vielen Systemen
-    private List<Mitarbeiter> Systemverantwortlicher = new ArrayList<>();
+    //@OneToMany(targetEntity = Systeme.class, mappedBy = "mitarbeiter_id", cascade = CascadeType.ALL) //ein Mitarbeiter zu vielen Systemen
+    //private List<Mitarbeiter> Systemverantwortlicher = new ArrayList<>();
 
 
     //Konstruktoren

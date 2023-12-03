@@ -18,7 +18,7 @@ public class Systemeinheit {
     private String systemeinheit_name;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "systemeinheit_id", cascade = CascadeType.ALL) //Eine Systemeinheit zu vielen IT-Elementen
-    private List<Systemeinheit> Systemeinheit = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Systemeinheit() {

@@ -19,27 +19,27 @@ public class Systeme {
     @Column(name = "beschreibung")
     private String beschreibung;
 
-    @OneToMany(targetEntity = IT_Element.class, mappedBy = "system_id", cascade = CascadeType.ALL) //Ein Systeme zu vielen IT-Elementen
-    private List<Systeme> Systeme = new ArrayList<>();
+    @OneToMany(mappedBy = "system_id", fetch = FetchType.LAZY)
+    private List<IT_Element> it_elements;
 
-    @ManyToOne() //viele Systemtypen zu einem systeme
-    @JoinColumn(name="systemtyp_id", referencedColumnName = "systemtyp_id") //Join Tabelle systemtypen
+    @ManyToOne
+    @JoinColumn(name = "systemtyp_id")
     private Systemtyp systemtyp_id;
 
     @ManyToOne
-    @JoinColumn(name = "kritikalitaet_id", referencedColumnName = "kritikalitaet_id")
+    @JoinColumn(name = "kritikalitaet_id")
     private Kritikalitaet kritikalitaet_id;
 
-    @ManyToOne () //viele Zonen zu einem systeme
-    @JoinColumn(name = "zonen_id", referencedColumnName = "zonen_id") //Join Tabelle zone
+    @ManyToOne
+    @JoinColumn(name = "zonen_id")
     private Zone zonen_id;
 
-    @ManyToOne() // viele Kraftwerke zu einem systeme
-    @JoinColumn(name = "kw_id", referencedColumnName = "kw_id") //Join Tabelle kraftwerke
+    @ManyToOne
+    @JoinColumn(name = "kw_id")
     private Kraftwerk kw_id;
 
-    @ManyToOne() // viele Mitarbeiter zu einem system
-    @JoinColumn(name = "mitarbeiter_id", referencedColumnName = "mitarbeiter_id") //Join Tabelle kraftwerke
+    @ManyToOne
+    @JoinColumn(name = "mitarbeiter_id")
     private Mitarbeiter mitarbeiter_id;
 
 

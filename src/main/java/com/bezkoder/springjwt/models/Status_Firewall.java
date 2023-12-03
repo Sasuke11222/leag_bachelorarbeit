@@ -18,7 +18,7 @@ public class Status_Firewall {
     private String status;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "status_firewall_id", cascade = CascadeType.ALL) //Ein Firewallstatus zu vielen IT-Elementen
-    private List<Status_Firewall> Status_Firewall = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Status_Firewall() {

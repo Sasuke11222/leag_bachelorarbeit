@@ -18,7 +18,7 @@ public class Status_RJ45 {
     private String status;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "status_rj45_id", cascade = CascadeType.ALL) //Ein RJ45status zu vielen IT-Elementen
-    private List<Status_RJ45> Status_RJ45 = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Status_RJ45() {

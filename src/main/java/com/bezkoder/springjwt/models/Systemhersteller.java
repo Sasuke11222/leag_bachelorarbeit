@@ -14,8 +14,8 @@ public class Systemhersteller {
 
     private String herstellername;
 
-    //@OneToMany(targetEntity = IT_Element.class, mappedBy = "systemhersteller_id", cascade = CascadeType.ALL) //Ein Systemhersteller zu vielen IT-Elementen
-    //private List<Systemhersteller> Systemhersteller = new ArrayList<>();
+    @OneToMany(mappedBy = "systemhersteller_id", fetch = FetchType.LAZY)
+    private List<IT_Element> it_elements;
 
 
     public Systemhersteller() {

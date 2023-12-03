@@ -1,7 +1,7 @@
 package com.bezkoder.springjwt.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import com.bezkoder.springjwt.models.Systeme;
 import java.util.List;
 
 @Entity
@@ -17,8 +17,11 @@ public class Systemtyp {
     @Column(name = "systemtyp_name")
     private String systemtyp_name;
 
-    @OneToMany(targetEntity = Systeme.class, mappedBy = "systemtyp_id", cascade = CascadeType.ALL) //Ein Systemtyp zu vielen Systemen
-    private List<Systemtyp> Systemtyp = new ArrayList<>();
+    //@OneToMany(targetEntity = Systeme.class, mappedBy = "systemtyp_id", cascade = CascadeType.ALL) //Ein Systemtyp zu vielen Systemen
+    //private List<Systemtyp> Systemtyp = new ArrayList<>();
+
+    @OneToMany(mappedBy = "systemtyp_id", fetch = FetchType.LAZY )
+    private List<Systeme> systems;
 
     //Konstruktoren
     public Systemtyp() {

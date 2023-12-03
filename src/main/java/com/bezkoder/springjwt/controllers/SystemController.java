@@ -78,6 +78,11 @@ public class SystemController {
         }
     }
 
+    @PostMapping("/neusysteme")
+    public void createNeuSystem(@RequestBody Systeme systeme) {
+        systemRepository.save(systeme);
+    }
+
     //erstellt ein neues System
     @PostMapping("/systeme")
     public ResponseEntity<Systeme> createSysteme(@RequestBody Systeme systeme) {

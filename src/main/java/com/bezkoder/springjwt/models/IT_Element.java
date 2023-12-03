@@ -11,8 +11,8 @@ public class IT_Element {
     @Column(name = "it_element_id")
     private Long it_element_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Kraftwerk
-    @JoinColumn(name = "kw_id", referencedColumnName = "kw_id") //Join Tabelle kraftwerke
+    @ManyToOne
+    @JoinColumn(name = "kw_id")
     private Kraftwerk kw_id;
 
     @Column(name = "kks")
@@ -21,44 +21,41 @@ public class IT_Element {
     @Column(name = "kurztext")
     private String kurztext;
 
-    @ManyToOne() // viele IT-Elemente zu einer Systemeinheit
-    @JoinColumn(name = "systemeinheit_id", referencedColumnName = "systemeinheit_id") //Join Tabelle systemeinheiten
+    @ManyToOne // viele IT-Elemente zu einer Systemeinheit
+    @JoinColumn(name = "systemeinheit_id") //Join Tabelle systemeinheiten
     private Systemeinheit systemeinheit_id;
 
-    @ManyToOne() // viele IT-Elemente zu einem System
-    @JoinColumn(name = "system_id", referencedColumnName = "system_id") //Join Tabelle systeme
+    @ManyToOne // viele IT-Elemente zu einem System
+    @JoinColumn(name = "system_id") //Join Tabelle systeme
     private Systeme system_id;
 
-    @ManyToOne() // viele IT-Elemente zu einem USB-Status
-    @JoinColumn(name = "status_usb_id", referencedColumnName = "status_usb_id") //Join Tabelle status_usb
+    @ManyToOne // viele IT-Elemente zu einem USB-Status
+    @JoinColumn(name = "status_usb_id") //Join Tabelle status_usb
     private Status_USB status_usb_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Virenschutzhersteller
-    @JoinColumn(name="virenschutz_hersteller_id", referencedColumnName = "virenschutz_hersteller_id") //Join Tabelle virenschutzhersteller
+    @ManyToOne //viele IT-Elemente zu einem Virenschutzhersteller
+    @JoinColumn(name="virenschutz_hersteller_id") //Join Tabelle virenschutzhersteller
     private Virenschutzhersteller virenschutz_hersteller_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem RJ45-Status
-    @JoinColumn(name="status_rj45_id", referencedColumnName = "status_rj45_id") //Join Tabelle status_rj45
+    @ManyToOne //viele IT-Elemente zu einem RJ45-Status
+    @JoinColumn(name="status_rj45_id") //Join Tabelle status_rj45
     private Status_RJ45 status_rj45_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Betriebssystem
-    @JoinColumn(name="betriebssystem_id", referencedColumnName = "betriebssystem_id") //Join Tabelle betriebssysteme
+    @ManyToOne //viele IT-Elemente zu einem Betriebssystem
+    @JoinColumn(name="betriebssystem_id") //Join Tabelle betriebssysteme
     private Betriebssystem betriebssystem_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Firewall-Status
-    @JoinColumn(name="status_firewall_id", referencedColumnName = "status_firewall_id") //Join Tabelle status_firewall
+    @ManyToOne //viele IT-Elemente zu einem Firewall-Status
+    @JoinColumn(name="status_firewall_id") //Join Tabelle status_firewall
     private Status_Firewall status_firewall_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Virenschutzstatus
-    @JoinColumn(name="status_virenschutz_id", referencedColumnName = "status_virenschutz_id") //Join Tabelle status_virenschutz
+    @ManyToOne //viele IT-Elemente zu einem Virenschutzstatus
+    @JoinColumn(name="status_virenschutz_id") //Join Tabelle status_virenschutz
     private Status_Virenschutz status_virenschutz_id;
 
-    @ManyToOne() //viele IT-Elemente zu einem Systemhersteller
-    @JoinColumn(name="systemhersteller_id", referencedColumnName = "systemhersteller_id") //Join Tabelle systemhersteller
+    @ManyToOne //viele IT-Elemente zu einem Systemhersteller
+    @JoinColumn(name="systemhersteller_id") //Join Tabelle systemhersteller
     private Systemhersteller systemhersteller_id;
-
-
-    //private Integer systemhersteller_id;
 
     @Column(name = "modell")
     private String modell;
@@ -66,8 +63,8 @@ public class IT_Element {
     @Column(name = "firmwareversion")
     private String firmwareversion;
 
-    @ManyToOne() //viele IT-Elemente zu einem Office
-    @JoinColumn(name="office_id", referencedColumnName = "office_id") //Join Tabelle office
+    @ManyToOne //viele IT-Elemente zu einem Office
+    @JoinColumn(name="office_id") //Join Tabelle office
     private Office office_id;
 
     @Column(name = "ibs_datum")

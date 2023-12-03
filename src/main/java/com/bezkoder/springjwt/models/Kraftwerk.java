@@ -27,10 +27,11 @@ public class Kraftwerk {
     @Column(name = "systemkoordinator")
     private String systemkoordinator;
 
-    /*
-    @OneToMany(mappedBy = "kw_id") //ein Kraftwerk zu vielen IT-Elementen, Mitarbeitern & Systemen
-    private List<Kraftwerk> Kraftwerke = new ArrayList<>();
-     */
+    @OneToMany(mappedBy = "kw_id", fetch = FetchType.LAZY)
+    private List<Systeme> systems;
+
+    @OneToMany(mappedBy = "kw_id", fetch = FetchType.LAZY)
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     protected  Kraftwerk() {

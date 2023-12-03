@@ -18,7 +18,7 @@ public class Status_Virenschutz {
     private String status;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "status_virenschutz_id", cascade = CascadeType.ALL) //Ein Virenschutzstatus zu vielen IT-Elementen
-    private List<Status_Virenschutz> Status_Virenschutz = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Status_Virenschutz() {

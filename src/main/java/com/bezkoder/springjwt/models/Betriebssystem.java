@@ -17,7 +17,7 @@ public class Betriebssystem {
     private String betriebssystem_name;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "betriebssystem_id", cascade = CascadeType.ALL) //Ein Betriebssystem zu vielen IT-Elementen
-    private List<Betriebssystem> Betriebssystem = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Betriebssystem() {

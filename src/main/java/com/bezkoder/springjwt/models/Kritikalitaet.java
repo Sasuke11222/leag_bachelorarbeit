@@ -17,8 +17,11 @@ public class Kritikalitaet {
     @Column(name = "kritikalitaet_name")
     private String kritikalitaet_name;
 
-    @OneToMany(targetEntity = Systeme.class, mappedBy = "kritikalitaet_id", cascade = CascadeType.ALL)//Eine Kritikalität zu vielen Systemen
-    private List<Kritikalitaet> Kritikalitaet = new ArrayList<>();
+    //@OneToMany(targetEntity = Systeme.class, mappedBy = "kritikalitaet_id", cascade = CascadeType.ALL)//Eine Kritikalität zu vielen Systemen
+    //private List<Kritikalitaet> Kritikalitaet = new ArrayList<>();
+
+    @OneToMany(mappedBy = "kritikalitaet_id", fetch = FetchType.LAZY)
+    private List<Systeme> systems;
 
     //Konstruktoren
     public Kritikalitaet() {

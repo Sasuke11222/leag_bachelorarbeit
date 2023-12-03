@@ -18,7 +18,7 @@ public class Status_USB {
     private String status;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "status_usb_id", cascade = CascadeType.ALL) //Ein USB-Status zu vielen IT-Elementen
-    private List<Status_USB> Status_USB = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Status_USB() {

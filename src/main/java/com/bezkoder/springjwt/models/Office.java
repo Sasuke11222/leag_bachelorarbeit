@@ -18,7 +18,7 @@ public class Office {
     private String version;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "office_id", cascade = CascadeType.ALL) //Ein Office zu vielen IT-Elementen
-    private List<Office> Office = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Office() {

@@ -1,7 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.models.Mitarbeiter;
-import com.bezkoder.springjwt.repository.KraftwerkRepository;
 import com.bezkoder.springjwt.repository.MitarbeiterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,36 +52,6 @@ public class MitarbeiterController {
     @PostMapping("/neumitarbeiter")
     public void createNeuMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.save(mitarbeiter);
-    }
-
-    //erstellt einen neuen Mitarbeiter
-    @PostMapping("/mitarbeiter")
-    public ResponseEntity<Mitarbeiter> createMitarbeiter(@RequestBody Mitarbeiter mitarbeiter) {
-        Optional<Mitarbeiter> existingMitarbeiter = Optional.ofNullable(mitarbeiterRepository.findByNameContaining(mitarbeiter.getMitarbeiter_id()));
-
-        if(existingMitarbeiter.isPresent()) {
-            Mitarbeiter _mitarbeiter = existingMitarbeiter.get();
-            _mitarbeiter.setMitarbeiter_id(mitarbeiter.getMitarbeiter_id());
-            _mitarbeiter.setNachname(mitarbeiter.getNachname());
-            _mitarbeiter.setVorname(mitarbeiter.getVorname());
-            _mitarbeiter.setAbteilung(mitarbeiter.getAbteilung());
-            _mitarbeiter.setMail(mitarbeiter.getMail());
-            _mitarbeiter.setTelefon(mitarbeiter.getTelefon());
-            _mitarbeiter.setKw_id(mitarbeiter.getKw_id());
-
-            mitarbeiterRepository.save(_mitarbeiter);
-            return new ResponseEntity<>(_mitarbeiter, HttpStatus.OK);
-        }
-        Mitarbeiter _mitarbeiter = mitarbeiterRepository.save(new Mitarbeiter(
-                mitarbeiter.getMitarbeiter_id(),
-                mitarbeiter.getNachname(),
-                mitarbeiter.getVorname(),
-                mitarbeiter.getAbteilung(),
-                mitarbeiter.getMail(),
-                mitarbeiter.getTelefon(),
-                mitarbeiter.getKw_id()
-        ));
-        return new ResponseEntity<>(_mitarbeiter, HttpStatus.CREATED);
     }
 
     @PutMapping("/mitarbeiter/{mitarbeiter_id}")

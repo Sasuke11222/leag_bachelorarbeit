@@ -21,7 +21,7 @@ public class Virenschutzhersteller {
     private String version;
 
     @OneToMany(targetEntity = IT_Element.class, mappedBy = "virenschutz_hersteller_id", cascade = CascadeType.ALL) //Ein Virenschutzhersteller zu vielen IT-Elementen
-    private List<Virenschutzhersteller> Virenschutzhersteller = new ArrayList<>();
+    private List<IT_Element> it_elements;
 
     //Konstruktoren
     public Virenschutzhersteller() {

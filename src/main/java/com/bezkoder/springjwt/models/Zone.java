@@ -16,9 +16,11 @@ public class Zone {
     @Column(name = "zone")
     private String zone;
 
-    @OneToMany(targetEntity = Systeme.class, mappedBy = "zonen_id", cascade = CascadeType.ALL) //Eine Zone zu vielen Systemen
-    private List<Zone> Zone = new ArrayList<>();
+    //@OneToMany(targetEntity = Systeme.class, mappedBy = "zonen_id", cascade = CascadeType.ALL) //Eine Zone zu vielen Systemen
+    //private List<Zone> Zone = new ArrayList<>();
 
+    @OneToMany(mappedBy = "zonen_id", fetch = FetchType.LAZY)
+    private List<Systeme> systems;
 
     public Zone() {
 
